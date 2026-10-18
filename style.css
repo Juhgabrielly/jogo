@@ -1,0 +1,515 @@
+/* Neon Dash - estilos: cores (variáveis), telas, botões, personagens, ambientes e jogo */
+:root {
+  color-scheme:dark;
+  --bg:#19013E;
+  --bg2:#0d0032;
+  --panel:#36215D;
+  --btn:#2D1151;
+  --btn-on:#55307C;
+  --neon:#FF3FD0;
+  --neon2:#B45CFF;
+  --text:#F6DDFF;
+  --gold:#FFE066;
+  --bad:#FF5A74;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px)
+}
+
+html {
+  height:100%;
+  scroll-padding-top:env(safe-area-inset-top,0px)
+}
+
+body {
+  height:100%;
+  margin:0;
+  background:var(--bg2);
+  color:var(--text);
+  font-family:'Exo 2',system-ui,sans-serif;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  user-select:none;
+  -webkit-user-select:none;
+  touch-action:manipulation
+}
+
+#app {
+  position:relative;
+  width:min(100vw,177.78vh);
+  aspect-ratio:16/9;
+  font-size:min(1vw,1.7778vh);
+  overflow:hidden;
+  background:radial-gradient(ellipse at 50% 30%,#3a0f78 0%,var(--bg) 55%,var(--bg2) 100%)
+}
+
+.screen {
+  position:absolute;
+  inset:0;
+  display:none;
+  flex-direction:column;
+  align-items:center
+}
+
+.screen.on {
+  display:flex
+}
+
+.floor {
+  position:absolute;
+  left:-50%;
+  right:-50%;
+  bottom:-18%;
+  height:60%;
+  transform:perspective(40em) rotateX(62deg);
+  transform-origin:50% 0;
+  background:repeating-linear-gradient(90deg,#ff3fd066 0 .15em,transparent .15em 6em),repeating-linear-gradient(0deg,#ff3fd066 0 .15em,transparent .15em 6em);
+  animation:fl 2s linear infinite;
+  pointer-events:none
+}
+
+@keyframes fl {
+  to {
+    background-position:0 6em,0 6em
+  }
+}
+
+.neon {
+  font-weight:800;
+  font-style:italic;
+  letter-spacing:.05em;
+  color:#ffd6f8;
+  text-shadow:0 0 .2em var(--neon),0 0 .6em var(--neon),0 0 1.4em var(--neon2)
+}
+
+h1 {
+  font-size:9em;
+  margin:3% 0 0;
+  z-index:1
+}
+
+h2 {
+  font-size:5em;
+  margin:2% 0 0;
+  z-index:1
+}
+
+.btn {
+  z-index:1;
+  cursor:pointer;
+  font:800 2.4em 'Exo 2',sans-serif;
+  color:var(--text);
+  background:var(--btn);
+  border:.12em solid var(--neon);
+  border-radius:.55em;
+  padding:.35em 1.6em;
+  box-shadow:0 0 .6em var(--neon),inset 0 0 .6em #ff3fd055;
+  text-shadow:0 0 .4em var(--neon);
+  transition:transform .12s,background .12s
+}
+
+.btn:hover {
+  background:var(--btn-on);
+  transform:scale(1.04)
+}
+
+.btn:focus-visible {
+  outline:.15em solid #fff;
+  outline-offset:.2em
+}
+
+.btn.big {
+  font-size:4.2em;
+  padding:.25em 2.4em
+}
+
+.row {
+  display:flex;
+  gap:2em;
+  z-index:1
+}
+
+#mcube {
+  width:26em;
+  height:26em;
+  animation:bob 2.2s ease-in-out infinite;
+  z-index:1
+}
+
+@keyframes bob {
+  50% {
+    transform:translateY(-1.2em) rotate(-3deg)
+  }
+}
+
+.coins {
+  position:absolute;
+  top:2.2em;
+  right:3em;
+  z-index:2;
+  font:800 2.6em 'Exo 2';
+  color:var(--gold);
+  text-shadow:0 0 .5em var(--gold)
+}
+
+.coins:before {
+  content:"";
+  display:inline-block;
+  width:.8em;
+  height:.8em;
+  margin-right:.3em;
+  border-radius:50%;
+  background:var(--gold);
+  box-shadow:0 0 .5em var(--gold);
+  vertical-align:-.05em
+}
+
+.chars {
+  flex:1;
+  display:flex;
+  width:92%;
+  gap:3em;
+  align-items:center;
+  z-index:1;
+  min-height:0
+}
+
+.stage {
+  flex:0 0 34%;
+  display:flex;
+  flex-direction:column;
+  align-items:center
+}
+
+#pcube {
+  width:24em;
+  height:24em;
+  animation:bob 2.2s ease-in-out infinite
+}
+
+.ped {
+  width:26em;
+  height:3.6em;
+  margin-top:-1.6em;
+  border-radius:50%;
+  border:.18em solid var(--neon);
+  background:radial-gradient(#ff3fd0aa,#2D1151 70%);
+  box-shadow:0 0 1.2em var(--neon)
+}
+
+#pname {
+  font-size:5.2em;
+  font-weight:800
+}
+
+.badge {
+  display:inline-block;
+  font:700 1.3em 'Exo 2';
+  padding:.2em 1em;
+  border-radius:1em;
+  background:var(--btn);
+  border:.1em solid var(--neon);
+  color:var(--text);
+  font-style:normal
+}
+
+#grid {
+  flex:1;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:1.6em
+}
+
+.card {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:.3em;
+  padding:1em .6em;
+  border-radius:1em;
+  background:var(--panel);
+  border:.14em solid #b45cff55;
+  cursor:pointer;
+  transition:transform .12s
+}
+
+.card canvas {
+  width:8.4em;
+  height:8.4em
+}
+
+.card b {
+  font-size:1.9em;
+  font-weight:800
+}
+
+.card.sel {
+  border-color:var(--neon);
+  box-shadow:0 0 1em var(--neon),inset 0 0 .8em #ff3fd066;
+  background:var(--btn-on)
+}
+
+.card.lock {
+  cursor:default
+}
+
+.card.lock canvas {
+  filter:brightness(.35) saturate(.6)
+}
+
+.card:not(.lock):hover {
+  transform:translateY(-.3em)
+}
+
+.price {
+  font:800 1.5em 'Exo 2';
+  color:var(--gold)
+}
+
+.price[data-no] {
+  color:var(--bad)
+}
+
+.ok {
+  font:700 1.2em 'Exo 2';
+  color:#9fffd6;
+  font-style:normal
+}
+
+.buy {
+  font:800 1.4em 'Exo 2';
+  color:var(--text);
+  background:var(--btn);
+  border:.1em solid var(--neon);
+  border-radius:.6em;
+  padding:.2em 1em;
+  cursor:pointer;
+  box-shadow:0 0 .5em var(--neon)
+}
+
+.buy:hover {
+  background:var(--btn-on)
+}
+
+#cv {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%
+}
+
+#hud {
+  position:absolute;
+  top:1.6em;
+  left:2.4em;
+  right:2.4em;
+  display:flex;
+  align-items:center;
+  gap:2em;
+  font:800 2em 'Exo 2';
+  z-index:2;
+  pointer-events:none
+}
+
+#bar {
+  flex:1;
+  height:.7em;
+  border-radius:1em;
+  background:#ffffff22;
+  overflow:hidden
+}
+
+#bar i {
+  display:block;
+  height:100%;
+  width:0;
+  background:var(--neon);
+  box-shadow:0 0 .8em var(--neon)
+}
+
+#win {
+  background:#19013Ecc;
+  justify-content:center;
+  gap:1.4em;
+  z-index:3
+}
+
+#toast {
+  position:absolute;
+  bottom:4%;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:9;
+  padding:.5em 1.6em;
+  font:800 2em 'Exo 2';
+  background:var(--btn);
+  border:.1em solid var(--neon);
+  border-radius:1em;
+  box-shadow:0 0 1em var(--neon);
+  opacity:0;
+  transition:opacity .25s;
+  pointer-events:none
+}
+
+#toast.on {
+  opacity:1
+}
+
+#lgrid {
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:1.4em;
+  width:80%;
+  z-index:1;
+  margin-top:2em
+}
+
+.lvb {
+  font:800 2.6em 'Exo 2',sans-serif;
+  padding:.4em 0;
+  border-radius:.6em;
+  background:var(--panel);
+  border:.1em solid #b45cff55;
+  color:var(--text);
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  align-items:center
+}
+
+.lvb small {
+  font-size:.38em;
+  opacity:.8
+}
+
+.lvb.done {
+  border-color:var(--gold)
+}
+
+.lvb[disabled] {
+  opacity:.35;
+  cursor:default
+}
+
+.lvb:not([disabled]):hover {
+  background:var(--btn-on);
+  border-color:var(--neon);
+  box-shadow:0 0 .8em var(--neon)
+}
+
+.set {
+  z-index:1;
+  width:60%;
+  margin-top:2em;
+  padding:2em 3em;
+  border-radius:1.2em;
+  background:var(--panel);
+  border:.12em solid #b45cff88;
+  display:grid;
+  gap:1.4em;
+  font:800 2.2em 'Exo 2',sans-serif
+}
+
+.set div {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:1em
+}
+
+.opt {
+  font:800 .8em 'Exo 2',sans-serif;
+  color:var(--text);
+  background:var(--btn);
+  border:.1em solid #b45cff88;
+  border-radius:.8em;
+  padding:.3em 1em;
+  cursor:pointer
+}
+
+.opt.on {
+  background:var(--btn-on);
+  border-color:var(--neon);
+  box-shadow:0 0 .6em var(--neon)
+}
+
+#egrid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1.4em;
+  width:84%;
+  z-index:1;
+  margin-top:1.2em
+}
+
+.ecard {
+  position:relative;
+  border-radius:1em;
+  overflow:hidden;
+  border:.14em solid #b45cff88;
+  cursor:pointer;
+  aspect-ratio:16/6;
+  background:var(--panel);
+  padding:0;
+  color:var(--text)
+}
+
+.ecard img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block
+}
+
+.ecard span {
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  padding:.3em .8em;
+  background:linear-gradient(transparent,#19013Eee 45%);
+  font:800 1.9em 'Exo 2',sans-serif;
+  display:flex;
+  justify-content:space-between
+}
+
+.ecard.lock img {
+  filter:brightness(.3) saturate(.4)
+}
+
+.ecard.lock {
+  cursor:default
+}
+
+.ecard:not(.lock):hover {
+  border-color:var(--neon);
+  box-shadow:0 0 1em var(--neon)
+}
+
+.ecard b {
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font:800 1.5em 'Exo 2',sans-serif;
+  text-align:center;
+  padding:1em 1em 2.2em
+}
+
+@media(prefers-reduced-motion:reduce) {
+  #mcube,#pcube,.floor {
+    animation:none
+  }
+}
+
+/* ===== CELULAR ===== */
+html,body{overscroll-behavior:none;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}
+#game,#cv{touch-action:none}
+.btn,.buy,.opt,.lvb,.ecard,.card{touch-action:manipulation}
+#rotate{position:fixed;inset:0;z-index:99;display:none;flex-direction:column;align-items:center;justify-content:center;gap:.6em;background:#19013E;color:#F6DDFF;font:800 6vw 'Exo 2',sans-serif;text-align:center;padding:1em;text-shadow:0 0 .4em #FF3FD0}
+#rotate i{display:block;width:18vw;height:11vw;border:.8vw solid #FF3FD0;border-radius:2vw;box-shadow:0 0 3vw #FF3FD0;animation:rot 2s ease-in-out infinite}
+@keyframes rot{0%,30%{transform:rotate(90deg)}70%,100%{transform:rotate(0)}}
+@media (orientation:portrait) and (max-width:900px){#rotate{display:flex}}

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Neon Dash</title>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,700;0,800;1,800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#19013E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+</head>
+<body>
+<div id="rotate"><i></i>Gire o celular<br>na horizontal</div>
+<div id="app">
+ <section class="screen on" id="menu"><div class="floor"></div>
+  <h1 class="neon">NEON DASH</h1>
+  <canvas id="mcube" width="260" height="260"></canvas>
+  <div class="coins" id="cm">0</div>
+  <button class="btn big" id="play">JOGAR</button>
+  <div class="row" style="margin-top:1.6em"><button class="btn" id="goLv">AMBIENTES</button><button class="btn" id="goChars">PERSONAGENS</button><button class="btn" id="goCfg">CONFIGURAÇÕES</button></div>
+ </section>
+ <section class="screen" id="chars"><div class="floor"></div>
+  <h2 class="neon">SELEÇÃO DE PERSONAGEM</h2><div class="coins" id="cc">0</div>
+  <div class="chars">
+   <div class="stage"><canvas id="pcube" width="260" height="260"></canvas><div class="ped"></div>
+    <div id="pname" class="neon">ROXO</div><span class="badge">SELECIONADO</span></div>
+   <div id="grid"></div>
+  </div>
+  <button class="btn" id="back" style="margin:1em 0 2em">VOLTAR</button>
+ </section>
+ <section class="screen" id="envs"><div class="floor"></div><h2 class="neon">AMBIENTES</h2><div id="egrid"></div><button class="btn" id="b4" style="margin:1.2em 0 2em">VOLTAR</button></section>
+ <section class="screen" id="levels"><div class="floor"></div><h2 class="neon" id="lvt">AMBIENTES</h2><div id="lgrid"></div><button class="btn" id="b2" style="margin:1.2em 0 2em">VOLTAR</button></section>
+ <section class="screen" id="cfg"><div class="floor"></div><h2 class="neon">CONFIGURAÇÕES</h2><div class="set">
+  <div>Qualidade gráfica<span><button class="opt" data-q="0">BAIXA</button> <button class="opt" data-q="1">MÉDIA</button> <button class="opt" data-q="2">ALTA</button></span></div>
+  <div>Tela cheia<button class="opt" id="fs">LIGAR</button></div><div>Zerar progresso<button class="opt" id="rs">ZERAR</button></div></div>
+  <button class="btn" id="b3" style="margin:1.2em 0">VOLTAR</button></section>
+ <section class="screen" id="game"><canvas id="cv" width="960" height="540"></canvas>
+  <div id="hud"><span id="lv">NÍVEL 1</span><div id="bar"><i></i></div><span id="co" style="color:var(--gold)">0</span></div>
+  <div class="screen" id="win"><h2 class="neon" id="wt">NÍVEL COMPLETO</h2><div id="reward" class="coins" style="position:static;font-size:4em"></div>
+   <div class="row"><button class="btn" id="next">PRÓXIMO NÍVEL</button><button class="btn" id="home">MENU</button></div></div>
+ </section>
+ <div id="toast"></div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
