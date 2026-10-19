@@ -1,4 +1,3 @@
-// ========== SALVAR E CARREGAR (localStorage) ==========
 const $=s=>document.querySelector(s), mem={};
 const st={get(k, d) {
     try {
@@ -26,20 +25,18 @@ const save=()=> {
   st.set('lvl', lvl);
   st.set('env', env)
 };
+const LIBERAR_AMBIENTES = false, LIBERAR_NIVEIS = false;
 const lid=(e, n)=>e*100+n, envDone=e=> {
   let c=0;
   for(let n=1;n<=15;n++)if(done.includes(lid(e, n)))c++;
   return c
-}, envOpen=e=>e==0||envDone(e-1)==15;
-
-// ========== PERSONAGENS (nome, cor, preço, acessório) ==========
+}, envOpen=e=>LIBERAR_AMBIENTES||e==0||envDone(e-1)==15;
 const CH=[{id:'roxo', n:'ROXO', c:'#9b4dff', t:'#ff6bf0', p:0}, {id:'rosa', n:'ROSA', c:'#ff7eb6', t:'#ff9fd0', p:20, a:'bow'},
   {id:'azul', n:'AZUL', c:'#3d8bff', t:'#6fc3ff', p:30, a:'shades'}, {id:'amarelo', n:'AMARELO', c:'#ffd23d', t:'#ffe066', p:30, a:'crown'},
   {id:'verde', n:'VERDE', c:'#4fe04a', t:'#8dff7a', p:40, a:'headset'}, {id:'laranja', n:'LARANJA', c:'#ff9a2e', t:'#ffb45c', p:40, a:'hat'},
   {id:'branco', n:'BRANCO', c:'#f4f0ff', t:'#9ff4ff', p:50, a:'wings'}, {id:'preto', n:'PRETO', c:'#2b2433', t:'#c58cff', p:60, a:'cape'}];
 const cur=()=>CH.find(c=>c.id===sel)||CH[0];
 
-// ========== DESENHO DOS PERSONAGENS (canvas) ==========
 function drawCube(g, ch, s) {
 
   const R=(x, y, w, h, r)=> {
@@ -158,7 +155,6 @@ function icon(cv, ch) {
   g.restore()
 }
 
-// ========== TELAS E INTERFACE ==========
 function toast(m) {
   const t=$('#toast');
   t.textContent=m;
@@ -236,13 +232,10 @@ function renderChars() {
   n.textContent=c.n;
   n.style.color=c.t
 }
-
-/* ===== JOGO ===== */
 const cv=$('#cv'), g=cv.getContext('2d'), W=960, H=540, T=48, GY=430, PX=230, GR=62, JV=17.5, AIR=2*JV/GR;
 
 let spd=9, Q=st.get('q', 2), TH, run=false, last=0, acc=0, held=false, won=false, flash=0, L, P;
 
-// ========== AMBIENTES (cores, decoração e miniaturas) ==========
 const IMG=["img/cidade-neon.jpg", "img/candy.jpg", "img/floresta.jpg", "img/mar.jpg", "img/por-do-sol.jpg", "img/gelo.jpg", "img/noite-escura.jpg", "img/galaxia.jpg", "img/vulcao.jpg"];
 
 const ENVS=[
@@ -256,6 +249,12 @@ const ENVS=[
   {n:'GALÁXIA', sky:['#0B0B09', '#321C4A', '#2D2643'], gf:'#160a2e', acc:'#c34bff', sf:'#25104a', blk:'#2a1450', bb:'#c34bff', sh:['c', '#3a1a6a', ''], pt:['#ffffff', 'st']},
   {n:'VULCÃO', sky:['#400401', '#620A03', '#942F0C'], gf:'#2a0400', acc:'#ff5a1f', sf:'#1a0300', blk:'#3a0f08', bb:'#ff5a1f', sh:['t', '#2a0a05', ''], pt:['#ffa040', 'up']}];
 ENVS.forEach((e, i)=>e.img=IMG[i]);
+const BGS=["bg/cidade-neon.jpg", "bg/candy.jpg", "bg/floresta.jpg", "bg/mar.jpg", "bg/por-do-sol.jpg", "bg/gelo.jpg", "bg/noite-escura.jpg", "bg/galaxia.jpg", "bg/vulcao.jpg"];
+const BG=BGS.map(s=>{const im=new Image();im.src=s;return im});
+function bgDraw(){const im=BG[env];if(!im||!im.naturalWidth){deco();return}
+ const w=1180,sc=P.x*T*.3,k=Math.floor(sc/w),off=-(sc-k*w);
+ for(let j=0;j<3;j++){const x=off+j*w;g.save();if((k+j)&1){g.translate(x+w,0);g.scale(-1,1);g.drawImage(im,0,0,w,H)}else g.drawImage(im,x,0,w,H);g.restore()}}
+
 
 function deco() {
   const k=P.x*T, tm=performance.now()/1e3, wr=(v, m)=>(v%m+m)%m, [ty, sc, tc]=TH.sh, [pc, pm]=TH.pt;
@@ -303,8 +302,7 @@ function deco() {
   g.globalAlpha=1
 }
 
-// Gera os obstáculos de um nível (cada ambiente/nível muda a dificuldade)
-function gen(n, e=0) {
+function gen(n, e) {
   const m=n+e*3;
   let s=(e*15+n)*9301+49297;
   const r=()=>(s=s*16807%2147483647)/2147483647, o=[], d=Math.min(1, (m-1)/14), sp=8.6+Math.min(m, 15)*.18+e*.3, len=90+n*18+e*10;
@@ -403,8 +401,6 @@ function die() {
   flash=1;
   reset()
 }
-
-// Física: movimento, pulo, colisões, morte e vitória
 function step(dt) {
 
   P.x+=spd*dt;
@@ -494,7 +490,6 @@ function sx(x) {
   return(x-P.x)*T+PX
 }
 
-// Desenho de cada quadro do jogo
 function render() {
 
   const bg=g.createLinearGradient(0, 0, 0, H);
@@ -503,7 +498,7 @@ function render() {
   bg.addColorStop(1, TH.sky[2]);
   g.fillStyle=bg;
   g.fillRect(0, 0, W, H);
-  deco();
+  bgDraw();
 
   g.fillStyle=TH.gf;
   g.fillRect(0, GY, W, H-GY);
@@ -618,8 +613,6 @@ function loop(t) {
   render();
   requestAnimationFrame(loop)
 }
-
-// ========== CONTROLES ==========
 const down=e=> {
   if(run) {
     held=true;
@@ -646,7 +639,6 @@ $('#next').onclick=()=> {
   $('#next').textContent=='AMBIENTES'?show('envs'):start()
 };
 
-// ========== TELA DE NÍVEIS / AMBIENTES / CONFIGURAÇÕES ==========
 function renderLevels() {
   const e=$('#lgrid');
   e.innerHTML='';
@@ -654,7 +646,7 @@ function renderLevels() {
   for(let n=1;n<=15;n++) {
     const id=lid(env, n), b=document.createElement('button');
     b.className='lvb'+(done.includes(id)?' done':'');
-    b.disabled=!(n==1||done.includes(id-1));
+    b.disabled=!(LIBERAR_NIVEIS||n==1||done.includes(id-1));
     b.innerHTML=n+'<small>'+(n<4?'FÁCIL':n<8?'MÉDIO':n<12?'DIFÍCIL':'EXTREMO')+'</small>';
     b.onclick=()=> {
       lvl=n;
@@ -721,9 +713,3 @@ $('#rs').onclick=()=> {
 };
 $('#goLv').onclick=()=>show('envs');$('#b4').onclick=()=>show('menu');$('#goCfg').onclick=()=>show('cfg');$('#b2').onclick=()=>show('envs');$('#b3').onclick=()=>show('menu');$('#home').onclick=()=>show('menu');
 renderMenu();
-
-// ========== CELULAR / INSTALAÇÃO (PWA) ==========
-addEventListener('contextmenu', e => e.preventDefault());
-if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
-  navigator.serviceWorker.register('sw.js').catch(() => {});
-}
